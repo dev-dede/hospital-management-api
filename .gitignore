@@ -1,0 +1,11 @@
+# Virtual environment
+venv/
+.env
+
+# Ignore IDE/editor files
+.vscode/
+*.swp
+
+# Byte-compiled / cached files
+__pycache__/
+*.pyc
