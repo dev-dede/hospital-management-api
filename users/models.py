@@ -11,7 +11,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError("Please input your email")
         
         email = self.normalize_email(email)
-        user = self.model(first_name=first_name, last_name=last_name, email=email, password=password)
+        user = self.model(first_name=first_name, last_name=last_name, email=email, password=password, role=role)
         user.set_password(password)
         user.save(using=self._db)
 
