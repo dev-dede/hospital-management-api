@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
+from datetime import date
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, first_name, last_name, email, password=None, role=None):
         if not first_name:
@@ -17,8 +19,8 @@ class CustomUserManager(BaseUserManager):
 
         return user
     
-    def create_superuser(self, first_name, last_name, email, password=None):
-        user = self.create_user(first_name, last_name, email, password)
+    def create_superuser(self, first_name, last_name, email, password=None, role="Admin"):
+        user = self.create_user(first_name, last_name, email, password, role)
 
         user.is_staff = True
         user.is_superuser = True
@@ -47,3 +49,50 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return f"{self.email} - {self.role}"
+    
+class PatientProfile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='patientprofile')
+    date_of_birth = models.DateField()
+    sex = models.CharField(max_length=20)
+    address = models.TextField()
+    phone_number = models.CharField(max_length=10)
+    #emergency_contact = models.ForeignKey(EmergencyContactPerson, related_name='patient_profile', on_delete=models.SET_NULL, null=True)
+
+    def calculate_age(self):
+        today = date.today()
+        age = date.year - self.date_of_birth.year
+        if today.month < self.date_of_birth.month or (today.month == self.date_of_birth.month and today.day < self.date_of_birth.day):
+            age -= 1
+        return age
+    
+    def get_full_name(self):
+        return self.user.get_full_name()
+    
+    def __str__(self):
+        return f"Profile of {self.user.first_name} {self.user.last_name}"
+
+class DoctorProfile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='doctorprofile')
+    license_number = models.CharField(max_length=50, unique=True)
+    specialization = models.CharField(max_length=100)
+    years_of_experience = models.IntegerField(blank=True, null=True)
+    certifications = models.TextField(blank=True, null=True)
+
+    def get_full_name(self):
+        return self.user.get_full_name()
+    
+    def __str__(self):
+        return f"Profile of Dr.{self.user.first_name} {self.user.last_name}"
+    
+class PharmacistProfile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='pharmacistprofile')
+    license_number = models.CharField(max_length=50, unique=True)
+    specialization = models.CharField(max_length=100, blank=True, null=True)
+    years_of_experience = models.IntegerField(blank=True, null=True)
+    certifications = models.TextField(blank=True, null=True)
+
+    def get_full_name(self):
+        return self.user.get_full_name()
+    
+    def __str__(self):
+        return f"Profile of Pharm.{self.user.first_name} {self.user.last_name}"
