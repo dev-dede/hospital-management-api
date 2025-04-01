@@ -22,7 +22,7 @@ def create_user_profile(sender, instance, created, **kwargs):
             PharmacistProfile.objects.create(user=instance)
 
     @receiver(post_save, sender=CustomUser)
-    def save_user_profile(sender, instance, *kwargs):
+    def save_user_profile(sender, instance, **kwargs):
         """
         Ensures the profile is saved when the user is saved.
         This makes sure any updates are also reflected in the profile.

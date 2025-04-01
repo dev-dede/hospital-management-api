@@ -52,10 +52,10 @@ class CustomUser(AbstractUser):
     
 class PatientProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='patientprofile')
-    date_of_birth = models.DateField()
-    sex = models.CharField(max_length=20)
-    address = models.TextField()
-    phone_number = models.CharField(max_length=10)
+    date_of_birth = models.DateField(null=True, blank=True)
+    sex = models.CharField(max_length=20, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    phone_number = models.CharField(max_length=10, null=True, blank=True)
     #emergency_contact = models.ForeignKey(EmergencyContactPerson, related_name='patient_profile', on_delete=models.SET_NULL, null=True)
 
     def calculate_age(self):
@@ -73,8 +73,8 @@ class PatientProfile(models.Model):
 
 class DoctorProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='doctorprofile')
-    license_number = models.CharField(max_length=50, unique=True)
-    specialization = models.CharField(max_length=100)
+    license_number = models.CharField(max_length=50, unique=True, null=True, blank=True)
+    specialization = models.CharField(max_length=100, null=True, blank=True)
     years_of_experience = models.IntegerField(blank=True, null=True)
     certifications = models.TextField(blank=True, null=True)
 
