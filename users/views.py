@@ -1,7 +1,8 @@
 from rest_framework import (
     generics,
     viewsets,
-    permissions
+    permissions,
+    views,
 )
 from .serializers import (
     UserSerializer, 
@@ -14,6 +15,7 @@ from .models import (
     DoctorProfile,
     PharmacistProfile,
 )
+from rest_framework.response import Response
 
 class Register(generics.CreateAPIView):
     serializer_class = UserSerializer
@@ -24,6 +26,15 @@ class UserUpdateRetrieveView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         return self.request.user
+
+class LogoutAPIView(views.APIView):
+    def post(self, request):
+        try:
+            # Delete the token to log the user out
+            request.user.auth_token.delete()
+            return Response({"message": "Logged out successfully!"}, status=200)
+        except (AttributeError, KeyError):
+            return Response({"error": "User not authenticated or token not found."}, status=400)
 
 class PatientProfileView(viewsets.ModelViewSet):
     queryset = PatientProfile.objects.all()
