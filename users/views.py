@@ -33,7 +33,7 @@ class PatientProfileView(viewsets.ModelViewSet):
         # Only allow users to get their own profile (Logged in user profile)
         return PatientProfile.objects.filter(user=self.request.user)
     
-    def perfrom_create(self, serializer):
+    def perform_create(self, serializer):
         # When a patientprofile is created, link the profile to the current logged-in user
         return serializer.save(user=self.request.user)
     

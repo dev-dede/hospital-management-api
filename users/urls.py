@@ -1,5 +1,5 @@
 from django.urls import path, include
-from rest_framework.authtoken import views
+from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework.authtoken.models import Token
 from rest_framework.routers import DefaultRouter
 from .views import (
@@ -23,5 +23,5 @@ urlpatterns = [
     path('', include(router.urls)),
 
     # Api endpoint for token generation
-    path('token-auth/', views.obtain_auth_token),
+    path('login/', obtain_auth_token, name='login'),
 ]
