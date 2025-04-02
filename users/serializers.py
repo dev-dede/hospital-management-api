@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 from .models import (
     CustomUser,
     PatientProfile,
@@ -8,9 +9,11 @@ from .models import (
 
 
 class UserSerializer(serializers.ModelSerializer):
+    token = serializers.SerializerMethodField()
+
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'password', 'role']
+        fields = ['first_name', 'last_name', 'email', 'password', 'role', 'token']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -18,9 +21,13 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return CustomUser.objects.create_user(**validated_data)
     
+    def get_token(self, obj):
+        token = Token.objects.create(user=obj)
+        return token.key
+    
 class PatientProfileSerializer(serializers.ModelSerializer):
-    age = serializers.SerializerMethodField
-    full_name = serializers.SerializerMethodField
+    age = serializers.SerializerMethodField()
+    full_name = serializers.SerializerMethodField()
 
     class Meta:
         model = PatientProfile
