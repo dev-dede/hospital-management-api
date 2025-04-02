@@ -61,7 +61,7 @@ class PatientProfile(models.Model):
     def calculate_age(self):
         if self.date_of_birth:
             today = date.today()
-            age = date.year - self.date_of_birth.year
+            age = today.year - self.date_of_birth.year
             if today.month < self.date_of_birth.month or (today.month == self.date_of_birth.month and today.day < self.date_of_birth.day):
                 age -= 1
             return age
