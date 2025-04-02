@@ -59,7 +59,7 @@ class DoctorProfileView(viewsets.ModelViewSet):
         return serializer.save(user=self.request.user)
     
 class PharmacistProfileView(viewsets.ModelViewSet):
-    queryset = PharmacistProfile
+    queryset = PharmacistProfile.objects.all()
     serializer_class = PharmacistProfileSerializer
 
     def get_queryset(self):
