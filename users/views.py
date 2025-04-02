@@ -1,6 +1,50 @@
-from django.shortcuts import render
-from .serializers import UserSerializer
-from rest_framework.generics import CreateAPIView
+from rest_framework import (
+    generics,
+    viewsets,
+)
+from .serializers import (
+    UserSerializer, 
+    PatientProfileSerializer,
+    DoctorProfileSerializer,
+    PharmacistProfileSerializer,
+)
+from .models import (
+    PatientProfile,
+    DoctorProfile,
+    PharmacistProfile,
+)
 
-class Register(CreateAPIView):
+class Register(generics.CreateAPIView):
     serializer_class = UserSerializer
+
+class PatientProfileView(viewsets.ModelViewSet):
+    queryset = PatientProfile.objects.all()
+    serializer_class = PatientProfileSerializer
+
+    def get_queryset(self):
+        # Only allow users to get their own profile (Logged in user profile)
+        return PatientProfile.objects.filter(user=self.request.user)
+    
+    def perfrom_create(self, serializer):
+        # When a patientprofile is created, link the profile to the current logged-in user
+        return serializer.save(user=self.request.user)
+    
+class DoctorProfileView(viewsets.ModelViewSet):
+    queryset = DoctorProfile.objects.all()
+    serializer_class = DoctorProfileSerializer
+
+    def get_queryset(self):
+        return DoctorProfile.objects.filter(user=self.request.user)
+    
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+    
+class PharmacistProfileView(viewsets.ModelViewSet):
+    queryset = PharmacistProfile
+    serializer_class = PharmacistProfileSerializer
+
+    def get_queryset(self):
+        return PharmacistProfile.objects.filter(user=self.request.user)
+    
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
