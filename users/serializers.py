@@ -32,7 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
         return user
     
     def get_token(self, obj):
-        token = Token.objects.create(user=obj)
+        token, created = Token.objects.get_or_create(user=obj)
         return token.key
     
 class PatientProfileSerializer(serializers.ModelSerializer):
@@ -45,11 +45,11 @@ class PatientProfileSerializer(serializers.ModelSerializer):
 
     def get_full_name(self, obj): 
         # Return full name of user associated with the current patient profile
-        return obj.user.get_full_name()
+        return obj.get_full_name()
     
     def get_age(self, obj):
         # Calculates age of user based on user date of birth using function in patient profile model
-        return obj.user.calculate_age()
+        return obj.calculate_age()
 
 class DoctorProfileSerializer(serializers.ModelSerializer):
     class Meta:

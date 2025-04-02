@@ -59,11 +59,14 @@ class PatientProfile(models.Model):
     #emergency_contact = models.ForeignKey(EmergencyContactPerson, related_name='patient_profile', on_delete=models.SET_NULL, null=True)
 
     def calculate_age(self):
-        today = date.today()
-        age = date.year - self.date_of_birth.year
-        if today.month < self.date_of_birth.month or (today.month == self.date_of_birth.month and today.day < self.date_of_birth.day):
-            age -= 1
-        return age
+        if self.date_of_birth:
+            today = date.today()
+            age = date.year - self.date_of_birth.year
+            if today.month < self.date_of_birth.month or (today.month == self.date_of_birth.month and today.day < self.date_of_birth.day):
+                age -= 1
+            return age
+        return None # Return None if date of birth is not set to calculate age
+    
     
     def get_full_name(self):
         return self.user.get_full_name()
