@@ -55,8 +55,8 @@ INSTALLED_APPS = [
     'users',
 
     # Restframework installations
-    'rest_framework'
-    'rest_framework.authotoken'
+    'rest_framework',
+    'rest_framework.authtoken'
 ]
 
 REST_FRAMEWORK = {

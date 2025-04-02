@@ -15,11 +15,11 @@ router.register(r'doctor-profile', DoctorProfileView, basename='doctor-profile')
 router.register(r'pharmacist-profile', PharmacistProfileView, basename='pharmacist-profile')
 
 urlpatterns = [
-    path('register/', Register.as_view(), name='register')
+    path('register/', Register.as_view(), name='register'),
     
     # Api endpoint for CRUD on userprofiles
-    path('', include(router.urls))
+    path('', include(router.urls)),
 
     # Api endpoint for token generation
-    path('api-token-auth/', views.obtain_auth_token)
+    path('api-token-auth/', views.obtain_auth_token),
 ]
