@@ -4,6 +4,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.routers import DefaultRouter
 from .views import (
     Register,
+    UserUpdateRetrieveView,
     PatientProfileView,
     DoctorProfileView,
     PharmacistProfileView,
@@ -16,10 +17,11 @@ router.register(r'pharmacist-profile', PharmacistProfileView, basename='pharmaci
 
 urlpatterns = [
     path('register/', Register.as_view(), name='register'),
+    path('me/', UserUpdateRetrieveView.as_view(), name='me'),
     
     # Api endpoint for CRUD on userprofiles
     path('', include(router.urls)),
 
     # Api endpoint for token generation
-    path('api-token-auth/', views.obtain_auth_token),
+    path('token-auth/', views.obtain_auth_token),
 ]
