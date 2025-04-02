@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from datetime import date
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, first_name, last_name, email, password=None, role=None):
+    def create_user(self, first_name, last_name, email, password=None, role="Patient"):
         if not first_name:
             raise ValueError("Please input your first name")
         if not last_name:
