@@ -1,4 +1,6 @@
 from django.urls import path, include
+from rest_framework.authtoken import views
+from rest_framework.authtoken.models import Token
 from rest_framework.routers import DefaultRouter
 from .views import (
     Register,
@@ -14,5 +16,10 @@ router.register(r'pharmacist-profile', PharmacistProfileView, basename='pharmaci
 
 urlpatterns = [
     path('register/', Register.as_view(), name='register')
+    
+    # Api endpoint for CRUD on userprofiles
     path('', include(router.urls))
+
+    # Api endpoint for token generation
+    path('api-token-auth/', views.obtain_auth_token)
 ]
