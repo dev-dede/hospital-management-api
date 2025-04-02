@@ -1,6 +1,7 @@
 from rest_framework import (
     generics,
     viewsets,
+    permissions
 )
 from .serializers import (
     UserSerializer, 
@@ -16,6 +17,7 @@ from .models import (
 
 class Register(generics.CreateAPIView):
     serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny]
 
 class PatientProfileView(viewsets.ModelViewSet):
     queryset = PatientProfile.objects.all()

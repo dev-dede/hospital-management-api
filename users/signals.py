@@ -22,7 +22,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         elif instance.role == "Pharmacist":
             PharmacistProfile.objects.create(user=instance)
 
-    @receiver(post_save, sender=CustomUser)
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
     def save_user_profile(sender, instance, **kwargs):
         """
         Ensures the profile is saved when the user is saved.
