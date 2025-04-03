@@ -19,7 +19,6 @@ class AppointmentUpdateView(generics.UpdateAPIView):
      """
     Allows only doctors to update appointment status.
     """
-     queryset = Appointment.objects.all()
      serializer_class = AppointmentSerialaizer
      permission_classes = [IsAuthenticated, IsDoctor]
 
@@ -35,6 +34,16 @@ class AppointmentUpdateView(generics.UpdateAPIView):
              serializer.instance.save()
 
 class AppointmentListView(generics.ListAPIView):
+    """
+    Returns appointments based on user role.
+    """
     serializer_class = AppointmentSerialaizer
-    queryset = Appointment.objects.all()
     permission_classes = [IsAuthenticated, (IsDoctor | IsPatient)]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.role == "Patient":
+            return Appointment.objects.filter(patient=user.patientprofile)
+        if user.role == "Doctor":
+            return Appointment.objects.filter(doctor=user.doctorprofile)
+        return Appointment.objects.none() # Return none if neither doctor or patient
