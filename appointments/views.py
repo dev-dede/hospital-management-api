@@ -1,4 +1,4 @@
-from .serializers import AppointmentSerialaizer
+from .serializers import AppointmentSerializer
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from users.permissions import IsPatient, IsDoctor
@@ -8,7 +8,7 @@ class AppointmentCreateView(generics.CreateAPIView):
     """
     Allows only patients to create appointments.
     """
-    serializer_class = AppointmentSerialaizer
+    serializer_class = AppointmentSerializer
     permission_classes = [IsAuthenticated, IsPatient]
 
     def perform_create(self, serializer):
@@ -19,7 +19,7 @@ class AppointmentUpdateView(generics.UpdateAPIView):
      """
     Allows only doctors to update appointment status.
     """
-     serializer_class = AppointmentSerialaizer
+     serializer_class = AppointmentSerializer
      permission_classes = [IsAuthenticated, IsDoctor]
 
      def get_queryset(self):
@@ -37,7 +37,7 @@ class AppointmentListView(generics.ListAPIView):
     """
     Returns appointments based on user role.
     """
-    serializer_class = AppointmentSerialaizer
+    serializer_class = AppointmentSerializer
     permission_classes = [IsAuthenticated, (IsDoctor | IsPatient)]
 
     def get_queryset(self):
@@ -47,3 +47,14 @@ class AppointmentListView(generics.ListAPIView):
         if user.role == "Doctor":
             return Appointment.objects.filter(doctor=user.doctorprofile)
         return Appointment.objects.none() # Return none if neither doctor or patient
+    
+class AppointmentDeleteView(generics.DestroyAPIView):
+    """
+    Allows only patients to delete their appointments.
+    """
+    serializer_class = AppointmentSerializer 
+    permission_classes = [IsAuthenticated, IsPatient]
+
+    def get_queryset(self):
+         """Patients can delete only their own appointments"""
+         return Appointment.objects.filter(patient=self.request.user.patientprofile)
