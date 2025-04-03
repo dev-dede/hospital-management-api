@@ -1,3 +1,22 @@
-from django.shortcuts import render
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.generics import (
+    CreateAPIView,
+    ListAPIView,
+    RetrieveUpdateAPIView,
+    DestroyAPIView,
+)
+from .serializers import (
+    MedicalRecordSerializer,
+)
+from users.permissions import (
+    IsDoctor,
+    IsPatient,
+)
+from .models import (
+    MedicalRecord,
+)
 
-# Create your views here.
+class MedicalRecordCreateView(CreateAPIView):
+    serializer_class = MedicalRecordSerializer
+    permission_classes = [IsAuthenticated, IsDoctor]
+
