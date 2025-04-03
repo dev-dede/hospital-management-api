@@ -8,6 +8,7 @@ from rest_framework.generics import (
 )
 from .serializers import (
     MedicalRecordSerializer,
+    DiagnosisSerializer,
 )
 from users.permissions import (
     IsDoctor,
@@ -15,6 +16,7 @@ from users.permissions import (
 )
 from .models import (
     MedicalRecord,
+    Diagnosis,
 )
 
 class MedicalRecordCreateView(CreateAPIView):
@@ -43,3 +45,11 @@ class MedicalRecordUpdateView(UpdateAPIView):
     queryset = MedicalRecord.objects.all()
     serializer_class = MedicalRecordSerializer
     permission_classes = [IsAuthenticated, IsDoctor]
+
+# Only doctors can create a diagnosis
+class DiagnosisCreateView(CreateAPIView):
+    serializer_class = DiagnosisSerializer
+    permission_classes = [IsAuthenticated, IsDoctor]
+
+    def perform_create(self, serializer):
+        serializer.save(doctor=self.request.user.doctorprofile)
