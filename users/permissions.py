@@ -12,18 +12,18 @@ class IsDoctor(permissions.BasePermission):
     Allows access only to doctors.
     """
     def has_permission(self, request, view):
-        return request.user.role == 'doctor'
+        return request.user.role == 'Doctor'
 
 class IsPharmacist(permissions.BasePermission):
     """
     Allows access only to pharmacists.
     """
     def has_permission(self, request, view):
-        return request.user.role == 'pharmacist'
+        return request.user.role == 'Pharmacist'
 
 class IsAdmin(permissions.BasePermission):
     """
     Allows access only to admins.
     """
     def has_permission(self, request, view):
-        return request.user.role == 'admin'
+        return request.user.role == 'Admin'
