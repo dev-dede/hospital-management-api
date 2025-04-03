@@ -38,3 +38,8 @@ class MedicalRecordDetailView(RetrieveAPIView):
     serializer_class = MedicalRecordSerializer
     # Patient get only their medical record with list hence no need for detailview for patients
     permission_classes = [IsAuthenticated, IsDoctor]
+
+class MedicalRecordUpdateView(UpdateAPIView):
+    queryset = MedicalRecord.objects.all()
+    serializer_class = MedicalRecordSerializer
+    permission_classes = [IsAuthenticated, IsDoctor]
