@@ -25,9 +25,7 @@ class AppointmentUpdateView(generics.UpdateAPIView):
 
      def get_queryset(self):
          # Doctors can update their own appointments
-        queryset = Appointment.objects.filter(doctor=self.request.user.doctorprofile)
-        print(f"User: {self.request.user}, Queryset: {queryset}")  # Debugging
-        return queryset
+        return Appointment.objects.filter(doctor=self.request.user.doctorprofile)
      
      def perform_update(self, serializer):
          # Allow only the status field to be updated by doctors
@@ -35,3 +33,8 @@ class AppointmentUpdateView(generics.UpdateAPIView):
          if status:
              serializer.instance.status = status
              serializer.instance.save()
+
+class AppointmentListView(generics.ListAPIView):
+    serializer_class = AppointmentSerialaizer
+    queryset = Appointment.objects.all()
+    permission_classes = [IsAuthenticated, (IsDoctor | IsPatient)]
