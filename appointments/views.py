@@ -1,6 +1,10 @@
-from .serializers import AppointmentSerializer
+from rest_framework.response import Response
+from rest_framework import status
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
+
+# Project based imports
+from .serializers import AppointmentSerializer
 from users.permissions import IsPatient, IsDoctor
 from .models import Appointment
 
@@ -58,3 +62,9 @@ class AppointmentDeleteView(generics.DestroyAPIView):
     def get_queryset(self):
          """Patients can delete only their own appointments"""
          return Appointment.objects.filter(patient=self.request.user.patientprofile)
+    
+    # def destroy(self, request, *args, **kwargs):
+    #     """Send a success message after deleting an appointment"""
+    #     instance = self.get_object()
+    #     self.perform_destroy(instance)
+    #     return Response({"message": "Appointment deleted successfully."}, status=status.HTTP_200_OK)
