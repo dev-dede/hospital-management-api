@@ -49,7 +49,7 @@ INSTALLED_APPS = [
 
     # Apps for project
     'appointments',
-    'medical_records',
+    'patient_records',
     'medications',
     'prescriptions',
     'users',
