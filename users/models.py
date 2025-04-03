@@ -48,7 +48,7 @@ class CustomUser(AbstractUser):
     objects = CustomUserManager()
 
     def __str__(self):
-        return f"{self.email} - {self.role}"
+        return f"{self.get_full_name()} ({self.email}) - {self.role}"
     
 class PatientProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='patientprofile')
@@ -85,8 +85,7 @@ class DoctorProfile(models.Model):
         return self.user.get_full_name()
     
     def __str__(self):
-        return f"Profile of Dr.{self.user.first_name} {self.user.last_name}"
-    
+        return f"Profile of Dr.{self.user.get_full_name()}"
 class PharmacistProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='pharmacistprofile')
     license_number = models.CharField(max_length=50, unique=True)
@@ -98,4 +97,4 @@ class PharmacistProfile(models.Model):
         return self.user.get_full_name()
     
     def __str__(self):
-        return f"Profile of Pharm.{self.user.first_name} {self.user.last_name}"
+        return f"Profile of Pharm.{self.user.get_full_name()}"
