@@ -37,7 +37,6 @@ class LogoutAPIView(views.APIView):
             return Response({"error": "User not authenticated or token not found."}, status=400)
 
 class PatientProfileView(viewsets.ModelViewSet):
-    queryset = PatientProfile.objects.all()
     serializer_class = PatientProfileSerializer
 
     def get_queryset(self):
@@ -49,7 +48,6 @@ class PatientProfileView(viewsets.ModelViewSet):
         return serializer.save(user=self.request.user)
     
 class DoctorProfileView(viewsets.ModelViewSet):
-    queryset = DoctorProfile.objects.all()
     serializer_class = DoctorProfileSerializer
 
     def get_queryset(self):
@@ -59,7 +57,6 @@ class DoctorProfileView(viewsets.ModelViewSet):
         return serializer.save(user=self.request.user)
     
 class PharmacistProfileView(viewsets.ModelViewSet):
-    queryset = PharmacistProfile.objects.all()
     serializer_class = PharmacistProfileSerializer
 
     def get_queryset(self):
