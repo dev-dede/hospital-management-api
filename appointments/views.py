@@ -17,7 +17,7 @@ class AppointmentCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         # Assigns the logged-in patient to the appointment
-        return serializer.save(patient=self.request.user.patientprofile)
+        return serializer.save(patient=self.request.user.patient_profile)
 
 class AppointmentUpdateView(generics.UpdateAPIView):
      """
@@ -28,7 +28,7 @@ class AppointmentUpdateView(generics.UpdateAPIView):
 
      def get_queryset(self):
          # Doctors can update their own appointments
-        return Appointment.objects.filter(doctor=self.request.user.doctorprofile)
+        return Appointment.objects.filter(doctor=self.request.user.doctor_profile)
      
      def perform_update(self, serializer):
          # Allow only the status field to be updated by doctors
@@ -47,9 +47,9 @@ class AppointmentListView(generics.ListAPIView):
     def get_queryset(self):
         user = self.request.user
         if user.role == "Patient":
-            return Appointment.objects.filter(patient=user.patientprofile)
+            return Appointment.objects.filter(patient=user.patient_profile)
         if user.role == "Doctor":
-            return Appointment.objects.filter(doctor=user.doctorprofile)
+            return Appointment.objects.filter(doctor=user.doctor_profile)
         return Appointment.objects.none() # Return none if neither doctor or patient
     
 class AppointmentDeleteView(generics.DestroyAPIView):
@@ -61,7 +61,7 @@ class AppointmentDeleteView(generics.DestroyAPIView):
 
     def get_queryset(self):
          """Patients can delete only their own appointments"""
-         return Appointment.objects.filter(patient=self.request.user.patientprofile)
+         return Appointment.objects.filter(patient=self.request.user.patient_profile)
     
     # def destroy(self, request, *args, **kwargs):
     #     """Send a success message after deleting an appointment"""

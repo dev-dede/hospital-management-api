@@ -9,6 +9,7 @@ from rest_framework.generics import (
 from .serializers import (
     MedicalRecordSerializer,
     DiagnosisSerializer,
+    LabResultsSerializer,
 )
 from users.permissions import (
     IsDoctor,
@@ -17,6 +18,7 @@ from users.permissions import (
 from .models import (
     MedicalRecord,
     Diagnosis,
+    LabResults,
 )
 
 class MedicalRecordCreateView(CreateAPIView):
@@ -33,7 +35,7 @@ class MedicalRecordListView(ListAPIView):
         if user.role == "Doctor":
             return MedicalRecord.objects.all()
         if user.role == "Patient":
-            return MedicalRecord.objects.filter(patient=user.patientprofile)
+            return MedicalRecord.objects.filter(patient=user.patient_profile)
         
 class MedicalRecordDetailView(RetrieveAPIView):
     queryset = MedicalRecord.objects.all()
@@ -52,7 +54,7 @@ class DiagnosisCreateView(CreateAPIView):
     permission_classes = [IsAuthenticated, IsDoctor]
 
     def perform_create(self, serializer):
-        serializer.save(doctor=self.request.user.doctorprofile)
+        serializer.save(doctor=self.request.user.doctor_profile)
 
 # Patients can only view their own diagnosis, while doctors can view all
 class DiagnosisListView(ListAPIView):
@@ -64,7 +66,7 @@ class DiagnosisListView(ListAPIView):
         if user.role == "Doctor":
             return Diagnosis.objects.all()
         if user.role == "Patient":
-            return Diagnosis.objects.filter(patient=user.patientprofile)
+            return Diagnosis.objects.filter(patient=user.patient_profile)
 
 # Only doctors can update a diagnosis
 class DiagnosisUpdateView(UpdateAPIView):
@@ -85,5 +87,40 @@ class DiagnosisDetailView(RetrieveAPIView):
         if user.role == 'Doctor':
             return Diagnosis.objects.all()
         elif user.role == 'Patient':
-            return Diagnosis.objects.filter(patient=user.patientprofile)
+            return Diagnosis.objects.filter(patient=user.patient_profile)
         
+
+class LabResultsCreateView(CreateAPIView):
+    serializer_class = LabResultsSerializer
+    permission_classes = [IsAuthenticated, IsDoctor]
+
+class LabResultsListView(ListAPIView):
+    serializer_class = LabResultsSerializer
+    permission_classes = [IsAuthenticated, (IsDoctor | IsPatient)]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.role == "Doctor":
+            return LabResults.objects.all()
+        if user.role == "Patient":
+            return LabResults.objects.filter(patient=user.patient_profile)
+
+class LabResultsUpdateView(UpdateAPIView):
+    queryset = LabResults.objects.all()
+    serializer_class = LabResultsSerializer
+    permission_classes = [IsAuthenticated, IsDoctor]
+
+class LabResultsDetailView(RetrieveAPIView):
+    serializer_class = LabResultsSerializer
+    permission_classes = [IsAuthenticated , (IsPatient | IsDoctor)]
+
+    def get_queryset(self):
+        """
+        Allow patients to view only their own diagnosis,
+        while doctors can view all diagnoses.
+        """
+        user = self.request.user
+        if user.role == 'Doctor':
+            return LabResults.objects.all()
+        elif user.role == 'Patient':
+            return LabResults.objects.filter(patient=user.patient_profile)

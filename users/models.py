@@ -51,7 +51,7 @@ class CustomUser(AbstractUser):
         return f"{self.get_full_name()} ({self.email}) - {self.role}"
     
 class PatientProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='patientprofile')
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='patient_profile')
     date_of_birth = models.DateField(null=True, blank=True)
     sex = models.CharField(max_length=20, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
@@ -75,7 +75,7 @@ class PatientProfile(models.Model):
     #     return f"Profile of {self.user.first_name} {self.user.last_name}"
 
 class DoctorProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='doctorprofile')
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='doctor_profile')
     license_number = models.CharField(max_length=50, unique=True, null=True, blank=True)
     specialization = models.CharField(max_length=100, null=True, blank=True)
     years_of_experience = models.IntegerField(blank=True, null=True)
@@ -87,7 +87,7 @@ class DoctorProfile(models.Model):
     def __str__(self):
         return f"Profile of Dr.{self.user.get_full_name()}"
 class PharmacistProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='pharmacistprofile')
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='pharmacist_profile')
     license_number = models.CharField(max_length=50, unique=True)
     specialization = models.CharField(max_length=100, blank=True, null=True)
     years_of_experience = models.IntegerField(blank=True, null=True)
