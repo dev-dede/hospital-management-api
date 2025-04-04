@@ -13,8 +13,8 @@ class MedicalRecord(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return f"Medical Record for {self.patient.user.get_full_name()}"
+    # def __str__(self):
+    #     return f"Medical Record for {self.patient.user.get_full_name()}"
 
 class Diagnosis(models.Model):
     patient = models.ForeignKey(PatientProfile, on_delete=models.CASCADE, related_name="patientdiagnosis")

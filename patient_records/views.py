@@ -65,4 +65,25 @@ class DiagnosisListView(ListAPIView):
             return Diagnosis.objects.all()
         if user.role == "Patient":
             return Diagnosis.objects.filter(patient=user.patientprofile)
+
+# Only doctors can update a diagnosis
+class DiagnosisUpdateView(UpdateAPIView):
+    queryset = Diagnosis.objects.all()
+    serializer_class = DiagnosisSerializer
+    permission_classes = [IsDoctor]
+
+class DiagnosisDetailView(RetrieveAPIView):
+    serializer_class = DiagnosisSerializer
+    permission_classes = [IsAuthenticated , (IsPatient | IsDoctor)]
+
+    def get_queryset(self):
+        """
+        Allow patients to view only their own diagnosis,
+        while doctors can view all diagnoses.
+        """
+        user = self.request.user
+        if user.role == 'Doctor':
+            return Diagnosis.objects.all()
+        elif user.role == 'Patient':
+            return Diagnosis.objects.filter(patient=user.patientprofile)
         
