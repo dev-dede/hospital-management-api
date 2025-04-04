@@ -41,4 +41,4 @@ class IsPharmacistOrReadOnly(permissions.BasePermission):
             return True
 
         # Only allow Pharmacists to modify data
-        request.user.role == "pharmacist"
+        return request.user.role == 'Pharmacist'

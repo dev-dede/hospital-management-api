@@ -88,7 +88,7 @@ class DoctorProfile(models.Model):
         return f"Profile of Dr.{self.user.get_full_name()}"
 class PharmacistProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='pharmacist_profile')
-    license_number = models.CharField(max_length=50, unique=True)
+    license_number = models.CharField(max_length=50, unique=True, blank=True, null=True)
     specialization = models.CharField(max_length=100, blank=True, null=True)
     years_of_experience = models.IntegerField(blank=True, null=True)
     certifications = models.TextField(blank=True, null=True)

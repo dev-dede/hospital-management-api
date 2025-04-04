@@ -29,11 +29,11 @@ def create_user_profile(sender, instance, created, **kwargs):
         This makes sure any updates are also reflected in the profile.
         """
         if instance.role == "Doctor":
-            instance.doctorprofile.save()
+            instance.doctor_profile.save()
         if instance.role == "Patient":
-            instance.patientprofile.save()
+            instance.patient_profile.save()
         if instance.role == "Pharmacist":
-            instance.pharmacistprofile.save()
+            instance.pharmacist_profile.save()
 
 # Token is created in serializer instead of using postsave signals per the drf documentation
 # @receiver(post_save, sender=settings.AUTH_USER_MODEL)
