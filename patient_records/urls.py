@@ -2,7 +2,7 @@ from rest_framework.urls import path
 from .views import (
     MedicalRecordCreateView, MedicalRecordListView, MedicalRecordDetailView, MedicalRecordUpdateView,
     DiagnosisCreateView, DiagnosisListView, DiagnosisUpdateView, DiagnosisDetailView,
-    LabResultsCreateView, LabResultsListView, LabResultsUpdateView, LabResultsDetailView,
+    LabResultCreateView, LabResultListView, LabResultUpdateView, LabResultDetailView,
 )
 
 urlpatterns = [
@@ -19,9 +19,9 @@ urlpatterns = [
     path("diagnoses/<int:pk>/detail/", DiagnosisDetailView.as_view(), name="detail-diagnosis"),
 
     # Lab results uls
-    path('lab-results/create/', LabResultsCreateView.as_view(), name='create-lab-results'),
-    path('lab-results/', LabResultsListView.as_view(), name='list-lab-results'),
-    path("lab-results/<int:pk>/update/", LabResultsUpdateView.as_view(), name="update-lab-results"),
-    path("lab-results/<int:pk>/detail/", LabResultsDetailView.as_view(), name="detail-lab-results"),
+    path('lab-results/create/', LabResultCreateView.as_view(), name='create-lab-results'),
+    path('lab-results/', LabResultListView.as_view(), name='list-lab-results'),
+    path("lab-results/<int:pk>/update/", LabResultUpdateView.as_view(), name="update-lab-results"),
+    path("lab-results/<int:pk>/detail/", LabResultDetailView.as_view(), name="detail-lab-results"),
 
 ]

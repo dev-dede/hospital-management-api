@@ -28,7 +28,7 @@ class Diagnosis(models.Model):
     def __str__(self):
         return f"Diagnosis for {self.patient.user.get_full_name()} by Dr. {self.doctor.user.get_full_name()}"
     
-class LabResults(models.Model):
+class LabResult(models.Model):
     patient = models.ForeignKey(PatientProfile, on_delete=models.CASCADE, related_name='patient_lab_results')
     medical_record = models.ForeignKey(MedicalRecord, on_delete=models.CASCADE, related_name='medical_record_lab_results')
     xray = models.FileField(upload_to='xrays/', blank=True, null=True) 

@@ -9,7 +9,7 @@ from rest_framework.generics import (
 from .serializers import (
     MedicalRecordSerializer,
     DiagnosisSerializer,
-    LabResultsSerializer,
+    LabResultSerializer,
 )
 from users.permissions import (
     IsDoctor,
@@ -18,7 +18,7 @@ from users.permissions import (
 from .models import (
     MedicalRecord,
     Diagnosis,
-    LabResults,
+    LabResult,
 )
 
 class MedicalRecordCreateView(CreateAPIView):
@@ -90,28 +90,28 @@ class DiagnosisDetailView(RetrieveAPIView):
             return Diagnosis.objects.filter(patient=user.patient_profile)
         
 
-class LabResultsCreateView(CreateAPIView):
-    serializer_class = LabResultsSerializer
+class LabResultCreateView(CreateAPIView):
+    serializer_class = LabResultSerializer
     permission_classes = [IsAuthenticated, IsDoctor]
 
-class LabResultsListView(ListAPIView):
-    serializer_class = LabResultsSerializer
+class LabResultListView(ListAPIView):
+    serializer_class = LabResultSerializer
     permission_classes = [IsAuthenticated, (IsDoctor | IsPatient)]
 
     def get_queryset(self):
         user = self.request.user
         if user.role == "Doctor":
-            return LabResults.objects.all()
+            return LabResult.objects.all()
         if user.role == "Patient":
-            return LabResults.objects.filter(patient=user.patient_profile)
+            return LabResult.objects.filter(patient=user.patient_profile)
 
-class LabResultsUpdateView(UpdateAPIView):
-    queryset = LabResults.objects.all()
-    serializer_class = LabResultsSerializer
+class LabResultUpdateView(UpdateAPIView):
+    queryset = LabResult.objects.all()
+    serializer_class = LabResultSerializer
     permission_classes = [IsAuthenticated, IsDoctor]
 
-class LabResultsDetailView(RetrieveAPIView):
-    serializer_class = LabResultsSerializer
+class LabResultDetailView(RetrieveAPIView):
+    serializer_class = LabResultSerializer
     permission_classes = [IsAuthenticated , (IsPatient | IsDoctor)]
 
     def get_queryset(self):
@@ -121,6 +121,6 @@ class LabResultsDetailView(RetrieveAPIView):
         """
         user = self.request.user
         if user.role == 'Doctor':
-            return LabResults.objects.all()
+            return LabResult.objects.all()
         elif user.role == 'Patient':
-            return LabResults.objects.filter(patient=user.patient_profile)
+            return LabResult.objects.filter(patient=user.patient_profile)

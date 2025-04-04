@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import (
     MedicalRecord,
     Diagnosis,
-    LabResults,
+    LabResult,
 )
 
 class MedicalRecordSerializer(serializers.ModelSerializer):
@@ -33,9 +33,9 @@ class DiagnosisSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("The patient in the diagnosis must match the patient in the medical record.")
         return data
 
-class LabResultsSerializer(serializers.ModelSerializer):
+class LabResultSerializer(serializers.ModelSerializer):
     class Meta:
-        model = LabResults
+        model = LabResult
         fields = '__all__'
         read_only_fields = ['patient']
 
