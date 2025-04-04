@@ -1,7 +1,7 @@
 from rest_framework.urls import path
 from .views import (
     MedicalRecordCreateView, MedicalRecordListView, MedicalRecordDetailView, MedicalRecordUpdateView,
-    DiagnosisCreateView,
+    DiagnosisCreateView, DiagnosisListView,
 )
 
 urlpatterns = [
@@ -13,5 +13,7 @@ urlpatterns = [
 
     # Diagnosis uls
     path('diagnosis/create/', DiagnosisCreateView.as_view(), name='create-diagnosis'),
+    path('diagnosis/', DiagnosisListView.as_view(), name='list-diagnosis'),
+    
     
 ]

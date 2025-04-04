@@ -53,3 +53,16 @@ class DiagnosisCreateView(CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(doctor=self.request.user.doctorprofile)
+
+# Patients can only view their own diagnosis, while doctors can view all
+class DiagnosisListView(ListAPIView):
+    serializer_class = DiagnosisSerializer
+    permission_classes = [IsAuthenticated, (IsDoctor | IsPatient)]
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.role == "Doctor":
+            return Diagnosis.objects.all()
+        if user.role == "Patient":
+            return Diagnosis.objects.filter(patient=user.patientprofile)
+        
