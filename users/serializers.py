@@ -38,6 +38,7 @@ class UserSerializer(serializers.ModelSerializer):
 class PatientProfileSerializer(serializers.ModelSerializer):
     age = serializers.SerializerMethodField()
     full_name = serializers.SerializerMethodField()
+    user = UserSerializer(read_only=True)
 
     class Meta:
         model = PatientProfile
@@ -52,11 +53,13 @@ class PatientProfileSerializer(serializers.ModelSerializer):
         return obj.calculate_age()
 
 class DoctorProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
     class Meta:
         model = DoctorProfile
-        fields = '__all__'
+        fields = ['user', 'license_number', 'specialization', 'years_of_experience', 'certifications']
 
 class PharmacistProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
     class Meta:
         model = PharmacistProfile
-        fields = '__all__'
+        fields = ['user', 'license_number', 'specialization', 'years_of_experience', 'certifications']
