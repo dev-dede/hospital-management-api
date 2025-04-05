@@ -1,6 +1,4 @@
-# ![Hospital Management System](https://via.placeholder.com/1000x200?text=Hospital+Management+System+API)
-
-> *A comprehensive Hospital Management System API built with Django REST Framework.*  
+# *A comprehensive Hospital Management System API built with Django REST Framework.*  
 > Manage users, appointments, prescriptions, medications, and patient records with role-based access for doctors, patients, pharmacists, and admins.
 
 ---
@@ -10,13 +8,6 @@
 The API is deployed on PythonAnywhere for assessment and demonstration.
 
 👉 **[View Live API](https://your-username.pythonanywhere.com/api/)**  
-
----
-
-## 📚 API Documentation
-
-Full API docs are available [here](docs/api-documentation.md).
-
 
 ---
 
@@ -181,9 +172,6 @@ Headers: Authorization: Token your_token_here
 - Python 3.8+
 - Django 4.x
 - Django REST Framework
-- djangorestframework-simplejwt (if JWT used)
-- drf-yasg (optional for Swagger)
-- MySQL (or other DB if configured)
 
 ---
 
@@ -203,6 +191,6 @@ This project is licensed for educational purposes as part of a capstone project 
 
 **Gifty Dede Tsewayo**  
 Back-end Engineering Student @ ALX Africa & Pharmacy Student  
-GitHub: [@your-github-username](https://github.com/)`
+GitHub: [@dev-dede](https://github.com/dev-dede/)`
 
 ---
