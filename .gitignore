@@ -9,3 +9,9 @@ venv/
 # Byte-compiled / cached files
 __pycache__/
 *.pyc
+
+# Ignore migration files
+*/migrations/*.py
+*/migrations/*.pyc
+
+
