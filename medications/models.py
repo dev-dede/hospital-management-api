@@ -1,4 +1,5 @@
 from django.db import models
+from prescriptions.models import Prescription
 
 class Medication(models.Model):
     UNIT_CHOICES = [
@@ -15,6 +16,9 @@ class Medication(models.Model):
     dosage_form = models.CharField(max_length=100)  # Form of the medication (e.g., Tablet, Syrup)
     strength = models.DecimalField(max_digits=10, decimal_places=2)  # Strength with 2 decimal places
     unit = models.CharField(max_length=10, choices=UNIT_CHOICES)  # Unit selection
+    prescription = models.ForeignKey(Prescription, on_delete=models.SET_NULL, 
+                                     null=True, blank=True, related_name="medications"
+                                     )
 
     def __str__(self):
         return f"{self.generic_name} ({self.strength} {self.unit}) - {self.dosage_form}"
