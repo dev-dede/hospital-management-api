@@ -4,11 +4,7 @@ from .models import (
     Diagnosis,
     LabResult,
 )
-
-class MedicalRecordSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = MedicalRecord
-        fields = '__all__'
+from prescriptions.serializers import PrescriptionSerializer
 
 class DiagnosisSerializer(serializers.ModelSerializer):
     class Meta:
@@ -48,5 +44,18 @@ class LabResultSerializer(serializers.ModelSerializer):
 
         # Ensure that the patient in the diagnosis matches the patient in the medical record
         if medical_record.patient != patient:
-            raise serializers.ValidationError("The patient in the diagnosis must match the patient in the medical record.")
+            raise serializers.ValidationError("The patient in the labresults must match the patient in the medical record.")
         return data
+
+class MedicalRecordSerializer(serializers.ModelSerializer):
+    diagnoses = DiagnosisSerializer(many=True, read_only=True)
+    lab_results = LabResultSerializer(many=True, read_only=True)
+    prescriptions = PrescriptionSerializer(many=True, read_only=True)
+    class Meta:
+        model = MedicalRecord
+        fields = [
+            'patient', 'surgeries', 'allergies', 'family_history', 'social_history', 
+            'diagnoses', 'lab_results', 'prescriptions',
+            'date_created', 'last_updated',
+            ]
+

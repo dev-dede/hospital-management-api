@@ -19,7 +19,7 @@ class MedicalRecord(models.Model):
 class Diagnosis(models.Model):
     patient = models.ForeignKey(PatientProfile, on_delete=models.CASCADE, related_name="patient_diagnosis")
     doctor = models.ForeignKey(DoctorProfile, on_delete=models.SET_NULL, null=True, blank=True, related_name="doctor_diagnosis")
-    medical_record = models.ForeignKey(MedicalRecord, on_delete=models.CASCADE)
+    medical_record = models.ForeignKey(MedicalRecord, on_delete=models.CASCADE, related_name='diagnoses')
     added_notes = models.TextField(blank=True, null=True)
     condition = models.CharField(max_length=100)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -30,7 +30,7 @@ class Diagnosis(models.Model):
     
 class LabResult(models.Model):
     patient = models.ForeignKey(PatientProfile, on_delete=models.CASCADE, related_name='patient_lab_results')
-    medical_record = models.ForeignKey(MedicalRecord, on_delete=models.CASCADE, related_name='medical_record_lab_results')
+    medical_record = models.ForeignKey(MedicalRecord, on_delete=models.CASCADE, related_name='lab_results')
     xray = models.FileField(upload_to='xrays/', blank=True, null=True) 
     vitalsigns = models.JSONField(blank=True, null=True) 
     blood_test_results = models.JSONField(blank=True, null=True)  # Store results as JSON "hemoglobin": "13.5 g/dL", "wbc_count": "5,000 cells/mcL"}
