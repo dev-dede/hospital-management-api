@@ -71,8 +71,8 @@ class PatientProfile(models.Model):
     def get_full_name(self):
         return self.user.get_full_name()
     
-    # def __str__(self):
-    #     return f"Profile of {self.user.first_name} {self.user.last_name}"
+    def __str__(self):
+        return f"Profile of {self.user.first_name} {self.user.last_name} ({self.id})"
 
 class DoctorProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='doctor_profile')
