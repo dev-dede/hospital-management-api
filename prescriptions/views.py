@@ -17,21 +17,21 @@ class PrescriptionViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
 
-        if user.role == "doctor":
+        if user.role == "Doctor":
             return Prescription.objects.all()
 
-        if user.role == "pharmacist":
+        if user.role == "Pharmacist":
             return Prescription.objects.all()
 
-        if user.role == "patient":
+        if user.role == "Patient":
             return Prescription.objects.filter(patient=user)
 
         return Prescription.objects.none()  # No access
 
-    def perform_create(self, serializer):
-        """Ensure that only doctors can create prescriptions."""
-        if self.request.user.role != "doctor":
-            raise PermissionDenied("Only doctors can create prescriptions.")
+    # def perform_create(self, serializer):
+    #     """Ensure that only doctors can create prescriptions."""
+    #     if self.request.user.role != "Doctor":
+    #         raise PermissionDenied("Only doctors can create prescriptions.")
 
-        serializer.save(patient=self.request.data.get("patient"))
+    #     serializer.save(patient=self.request.data.get("patient"))
 
