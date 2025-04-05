@@ -18,9 +18,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from users.views import api_root
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', api_root),  # root URL handler
     path('api/users/', include('users.urls')),
     path('api/', include('appointments.urls')),
     path('api/', include('patient_records.urls')),

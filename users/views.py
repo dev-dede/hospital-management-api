@@ -5,7 +5,7 @@ from rest_framework import (
 )
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import (
-    UserSerializer, 
+    UserSerializer,
     PatientProfileSerializer,
     DoctorProfileSerializer,
     PharmacistProfileSerializer,
@@ -20,6 +20,7 @@ from users.permissions import (
     IsAdmin,
 )
 from rest_framework.response import Response
+from django.http import JsonResponse
 
 class Register(generics.CreateAPIView):
     serializer_class = UserSerializer
@@ -51,26 +52,48 @@ class PatientProfileView(viewsets.ModelViewSet):
     def get_queryset(self):
         # Only allow users to get their own profile (Logged in user profile)
         return PatientProfile.objects.filter(user=self.request.user)
-    
+
     def perform_create(self, serializer):
         # When a patientprofile is created, link the profile to the current logged-in user
         return serializer.save(user=self.request.user)
-    
+
 class DoctorProfileView(viewsets.ModelViewSet):
     serializer_class = DoctorProfileSerializer
 
     def get_queryset(self):
         return DoctorProfile.objects.filter(user=self.request.user)
-    
+
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
-    
+
 class PharmacistProfileView(viewsets.ModelViewSet):
     serializer_class = PharmacistProfileSerializer
     permission_classes = []
 
     def get_queryset(self):
         return PharmacistProfile.objects.filter(user=self.request.user)
-    
+
     def perform_create(self, serializer):
         return serializer.save(user=self.request.user)
+
+#Information printed when one goes to the deployed link
+def api_root(request):
+    data = {
+        "message": "Welcome to the Hospital Management System API 👩‍⚕️🏥",
+        "status": "running",
+        "endpoints": {
+            "authentication": {
+                "register": "/api/users/register/",
+                "login": "/api/users/login/",
+                "logout": "/api/users/logout/",
+                "profile": "/api/users/profile/"
+            },
+            "appointments": "/api/appointments/",
+            "prescriptions": "/api/prescriptions/",
+            "patient_records": "/api/patient-records/",
+            "medications": "/api/medications/",
+            "api_docs": "/api/docs/"
+        },
+        "note": "All endpoints are token-authenticated unless stated otherwise."
+    }
+    return JsonResponse(data, json_dumps_params={'indent': 4})

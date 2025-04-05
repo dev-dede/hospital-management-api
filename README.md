@@ -1,4 +1,4 @@
-# *A comprehensive Hospital Management System API built with Django REST Framework.*  
+# *A comprehensive Hospital Management System API built with Django REST Framework.*
 > Manage users, appointments, prescriptions, medications, and patient records with role-based access for doctors, patients, pharmacists, and admins.
 
 ---
@@ -7,7 +7,7 @@
 
 The API is deployed on PythonAnywhere for assessment and demonstration.
 
-👉 **[View Live API](https://your-username.pythonanywhere.com/api/)**  
+👉 **[View Live API](https://tsewayo.pythonanywhere.com/)**
 
 ---
 
@@ -189,8 +189,8 @@ This project is licensed for educational purposes as part of a capstone project 
 
 ## 🙋🏾‍♀️ Author
 
-**Gifty Dede Tsewayo**  
-Back-end Engineering Student @ ALX Africa & Pharmacy Student  
+**Gifty Dede Tsewayo**
+Back-end Engineering Student @ ALX Africa & Pharmacy Student
 GitHub: [@dev-dede](https://github.com/dev-dede/)`
 
 ---
