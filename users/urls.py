@@ -5,6 +5,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     Register,
     UserUpdateRetrieveView,
+    UserListView,
     PatientProfileView,
     DoctorProfileView,
     PharmacistProfileView,
@@ -20,6 +21,7 @@ urlpatterns = [
     path('register/', Register.as_view(), name='register'),
     path('login/', obtain_auth_token, name='login'),
     path('me/', UserUpdateRetrieveView.as_view(), name='me'),
+    path('all/',UserListView.as_view(), name='all_users'),
     path('logout/', LogoutAPIView.as_view(), name='logout'),
     
     # Api endpoint for CRUD on userprofiles

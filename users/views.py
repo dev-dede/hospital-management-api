@@ -14,6 +14,7 @@ from .models import (
     PatientProfile,
     DoctorProfile,
     PharmacistProfile,
+    CustomUser,
 )
 from users.permissions import (
     IsAdmin,
@@ -32,6 +33,7 @@ class UserUpdateRetrieveView(generics.RetrieveUpdateDestroyAPIView):
 
 class UserListView(generics.ListAPIView):
     serializer_class = UserSerializer
+    queryset = CustomUser.objects.all()
     permission_classes = [IsAuthenticated, IsAdmin]
 
 class LogoutAPIView(views.APIView):
