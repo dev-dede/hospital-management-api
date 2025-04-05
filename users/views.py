@@ -1,9 +1,9 @@
 from rest_framework import (
     generics,
     viewsets,
-    permissions,
     views,
 )
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import (
     UserSerializer, 
     PatientProfileSerializer,
@@ -15,17 +15,24 @@ from .models import (
     DoctorProfile,
     PharmacistProfile,
 )
+from users.permissions import (
+    IsAdmin,
+)
 from rest_framework.response import Response
 
 class Register(generics.CreateAPIView):
     serializer_class = UserSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [AllowAny]
 
 class UserUpdateRetrieveView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
 
     def get_object(self):
         return self.request.user
+
+class UserListView(generics.ListAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated, IsAdmin]
 
 class LogoutAPIView(views.APIView):
     def post(self, request):
@@ -58,6 +65,7 @@ class DoctorProfileView(viewsets.ModelViewSet):
     
 class PharmacistProfileView(viewsets.ModelViewSet):
     serializer_class = PharmacistProfileSerializer
+    permission_classes = []
 
     def get_queryset(self):
         return PharmacistProfile.objects.filter(user=self.request.user)

@@ -1,3 +1,37 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from .models import Prescription
+from .serializers import PrescriptionSerializer
+from rest_framework.exceptions import PermissionDenied
 
-# Create your views here.
+class PrescriptionViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for managing prescriptions.
+    - Doctors: Can create & update all fields except status.
+    - Pharmacists: Can only update the status field.
+    - Patients: Can only read prescriptions assigned to them.
+    """
+    queryset = Prescription.objects.all()
+    serializer_class = PrescriptionSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.role == "doctor":
+            return Prescription.objects.all()
+
+        if user.role == "pharmacist":
+            return Prescription.objects.all()
+
+        if user.role == "patient":
+            return Prescription.objects.filter(patient=user)
+
+        return Prescription.objects.none()  # No access
+
+    def perform_create(self, serializer):
+        """Ensure that only doctors can create prescriptions."""
+        if self.request.user.role != "doctor":
+            raise PermissionDenied("Only doctors can create prescriptions.")
+
+        serializer.save(patient=self.request.data.get("patient"))
+
