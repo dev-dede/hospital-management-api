@@ -28,17 +28,17 @@ class PrescriptionSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("At least one medication is required.")
         return value
     
-    # def validate(self, data):
-    #     medical_record = data.get('medical_record')
-    #     patient = data.get('patient')
+    def validate(self, data):
+        medical_record = data.get('medical_record')
+        patient = data.get('patient')
 
-    #     if medical_record is None:
-    #         return data
+        if medical_record is None:
+            return data
 
-    #     # Ensure that the patient in the prescripnioj matches the patient in the medical record
-    #     if medical_record.patient != patient:
-    #         raise serializers.ValidationError("The patient in the prescription must match the patient in the medical record.")
-    #     return data
+        # Ensure that the patient in the prescripnioj matches the patient in the medical record
+        if medical_record.patient != patient:
+            raise serializers.ValidationError("The patient in the prescription must match the patient in the medical record.")
+        return data
 
     
     def create(self, validated_data):
