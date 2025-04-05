@@ -9,11 +9,11 @@ from .models import (
 
 
 class UserSerializer(serializers.ModelSerializer):
-    token = serializers.SerializerMethodField()
+    #token = serializers.SerializerMethodField()
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'password', 'role', 'token']
+        fields = ['first_name', 'last_name', 'email', 'password', 'role'] #token
         extra_kwargs = {
             'password': {'write_only': True}
         }
