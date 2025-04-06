@@ -7,7 +7,7 @@ from users.serializers import (
 
 class AppointmentSerializer(serializers.ModelSerializer):
     patient = PatientProfileSerializer(read_only=True)
-    doctor = DoctorProfileSerializer()
+    # doctor = DoctorProfileSerializer()
     class Meta:
         model = Appointment
         fields = ['id', 'date_time', 'status', 'doctor', 'patient']
