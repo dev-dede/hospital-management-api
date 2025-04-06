@@ -28,18 +28,6 @@ class PrescriptionSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("At least one medication is required.")
         return value
     
-    def validate(self, data):
-        medical_record = data.get('medical_record')
-        patient = data.get('patient')
-
-        if medical_record is None:
-            return data
-
-        # Ensure that the patient in the prescripnioj matches the patient in the medical record
-        if medical_record.patient != patient:
-            raise serializers.ValidationError("The patient in the prescription must match the patient in the medical record.")
-        return data
-
     
     def create(self, validated_data):
         medication_ids = validated_data.pop('medication_ids', [])
@@ -47,9 +35,15 @@ class PrescriptionSerializer(serializers.ModelSerializer):
         request = self.context.get("request")
         patient_id = request.data.get("patient")
         patient = PatientProfile.objects.get(id=patient_id)  # Convert patient_id to Patientprofile instance
+        doctor = request.user.doctor_profile
 
-        # Now add patient to validated_data
+        # Add patient (the profile) to validated_data
         validated_data["patient"] = patient
+        validated_data["doctor"] = doctor #Automatically assign the logged-in doctor to the doctor field
+        #Get the medical record and ensure it belongs to the correct patient
+        medical_record = validated_data.get('medical_record')
+        if medical_record and medical_record.patient != patient:
+            raise serializers.ValidationError("The medical record does not belong to the patient in the prescription.")
 
         prescription = Prescription.objects.create(**validated_data)
 

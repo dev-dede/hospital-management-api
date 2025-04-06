@@ -34,37 +34,37 @@ SECRET_KEY = env('SECRET_KEY', default='fallback-secret-key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-# Security settings
+# # Security settings
 
-# Prevent browsers from running malicious scripts (XSS protection)
-SECURE_BROWSER_XSS_FILTER = True
+# # Prevent browsers from running malicious scripts (XSS protection)
+# SECURE_BROWSER_XSS_FILTER = True
 
-# Prevent the site from being embedded in an iframe (Clickjacking protection)
-X_FRAME_OPTIONS = "DENY"
+# # Prevent the site from being embedded in an iframe (Clickjacking protection)
+# X_FRAME_OPTIONS = "DENY"
 
-# Prevent MIME-type sniffing attacks
-SECURE_CONTENT_TYPE_NOSNIFF = True
+# # Prevent MIME-type sniffing attacks
+# SECURE_CONTENT_TYPE_NOSNIFF = True
 
-# Only send CSRF and session cookies over HTTPS
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+# # Only send CSRF and session cookies over HTTPS
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 
-# Recognise request from reverse proxy as secure
-SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+# # Recognise request from reverse proxy as secure
+# SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
-# Redirect all HTTP traffic to HTTPS (only enable in production)
-SECURE_SSL_REDIRECT = True
+# # Redirect all HTTP traffic to HTTPS (only enable in production)
+# SECURE_SSL_REDIRECT = True
 
-# Instruct browsers to always use HTTPS for 1 year (recommended)
-SECURE_HSTS_SECONDS = 31536000  # 1 year in seconds
+# # Instruct browsers to always use HTTPS for 1 year (recommended)
+# SECURE_HSTS_SECONDS = 31536000  # 1 year in seconds
 
-# Apply this setting to all subdomains
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# # Apply this setting to all subdomains
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 
-# Allow your site to be preloaded in HSTS lists used by browsers
-SECURE_HSTS_PRELOAD = True
+# # Allow your site to be preloaded in HSTS lists used by browsers
+# SECURE_HSTS_PRELOAD = True
 
-ALLOWED_HOSTS = ['tsewayo.pythonanywhere.com']
+ALLOWED_HOSTS = ['tsewayo.pythonanywhere.com', '127.0.0.1', 'localhost']
 
 
 # Application definition

@@ -27,11 +27,3 @@ class PrescriptionViewSet(viewsets.ModelViewSet):
             return Prescription.objects.filter(patient=user)
 
         return Prescription.objects.none()  # No access
-
-    # def perform_create(self, serializer):
-    #     """Ensure that only doctors can create prescriptions."""
-    #     if self.request.user.role != "Doctor":
-    #         raise PermissionDenied("Only doctors can create prescriptions.")
-
-    #     serializer.save(patient=self.request.data.get("patient"))
-
