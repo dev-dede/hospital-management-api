@@ -7,11 +7,11 @@ from users.serializers import (
 
 class AppointmentSerializer(serializers.ModelSerializer):
     patient = PatientProfileSerializer(read_only=True)
-    doctor = DoctorProfileSerializer(read_only=True)
+    doctor = DoctorProfileSerializer()
     class Meta:
         model = Appointment
         fields = ['id', 'date_time', 'status', 'doctor', 'patient']
-        read_only_fields = ['patient', 'doctor'] # Patient cannot change themselves neither can doctors change this field
+        read_only_fields = ['patient'] # Patient cannot change themselves neither can doctors change this field
 
         # This is already handled in the view
         # def update(self, instance, validated_data):
