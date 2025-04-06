@@ -54,7 +54,7 @@ class MedicalRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = MedicalRecord
         fields = [
-            'patient', 'surgeries', 'allergies', 'family_history', 'social_history', 
+            'id', 'patient', 'surgeries', 'allergies', 'family_history', 'social_history', 
             'diagnoses', 'lab_results', 'prescriptions',
             'date_created', 'last_updated',
             ]

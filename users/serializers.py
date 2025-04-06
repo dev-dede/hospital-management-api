@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'password', 'role'] #token
+        fields = ['id', 'first_name', 'last_name', 'email', 'password', 'role'] #token
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -42,7 +42,7 @@ class PatientProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PatientProfile
-        fields = ['user', 'date_of_birth', 'sex', 'address', 'phone_number', 'full_name', 'age']
+        fields = ['id','user', 'date_of_birth', 'sex', 'address', 'phone_number', 'full_name', 'age']
 
     def get_full_name(self, obj): 
         # Return full name of user associated with the current patient profile
@@ -56,10 +56,10 @@ class DoctorProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     class Meta:
         model = DoctorProfile
-        fields = ['user', 'license_number', 'specialization', 'years_of_experience', 'certifications']
+        fields = ['id', 'user', 'license_number', 'specialization', 'years_of_experience', 'certifications']
 
 class PharmacistProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     class Meta:
         model = PharmacistProfile
-        fields = ['user', 'license_number', 'specialization', 'years_of_experience', 'certifications']
+        fields = ['id', 'user', 'license_number', 'specialization', 'years_of_experience', 'certifications']
